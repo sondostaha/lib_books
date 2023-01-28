@@ -12,6 +12,7 @@ All Books
 
 
 <p>{{$book->desc}}</p>
+<img src="{{$book->img}}" class="card-img-top">
 
 <a href="{{ route('books.create') }}" class="btn btn-primary">Add</a>
 <a href="{{ route('books.edit', $book->id) }}" class="btn btn-info">Edit</a>

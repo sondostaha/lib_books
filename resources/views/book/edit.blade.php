@@ -9,7 +9,7 @@ Edit Book -{{$book->title}}
 
 @include('inc.errors')
 
-<form method="POST" action="{{route('books.update',$book->id)}}">
+<form method="POST" action="{{route('books.update',$book->id)}}" enctype="multipart/form-data">
     @csrf
     
     <div class="form-group">
@@ -20,6 +20,11 @@ Edit Book -{{$book->title}}
     <div class="form-group">
       <textarea class="form-control" placeholder="Describtion" rows="3" name="desc">{{old('title') ?? $book->desc}}</textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="mb-3">
+      
+      <input class="form-control" type="file" name="img" value="{{$book->img}}">
+
+    </div>
+    <button type="submit" class="btn btn-primary">Edit</button>
   </form>
 @endsection
