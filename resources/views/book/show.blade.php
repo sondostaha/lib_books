@@ -8,6 +8,16 @@ BOOK {{$books->id}}
 <h4>{{$books->title}}</h4>
 <p>{{$books->desc}}</p>
 <img src="{{$books->img}}" class="card-img-top">
+
+<h3>Categories :</h3>
+    <ul>
+        @foreach ($books->categories as $category)
+
+    <li>{{$category->name}}</li>
+    
+@endforeach
+</ul>
+
 <a href="{{route('books.index')}}">Back</a>
 
 @endsection

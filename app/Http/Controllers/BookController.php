@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Book;
+use App\Models\Category;
+
 class BookController extends Controller
 {
     public function index(){
-        $books = Book::paginate(3);
+        $books = Book::orderBy('id','DESC')->paginate(3);
         return view('book.index' , compact('books'));
     }
     public function show($id){
@@ -15,7 +17,8 @@ class BookController extends Controller
         return view('book.show', compact('books'));
     }
     public function create(){
-        return view('book.create');
+        $categories = Category::select('id', 'name')->get();
+        return view('book.create', compact('categories'));
     }
 
     public function store(Request $request){
@@ -23,21 +26,24 @@ class BookController extends Controller
         $request->validate([
             'title' => 'required|string|max::100',
             'desc' => 'required|string',
-            'img'=>'image|nullable'
+            'img'=>'image|nullable',
+            'category_ids'=>'required',
+            'category_ids.*'=>'exists:categories,id'
         ]);
         //move
         $img = $request->file('img');
         $ext = $img->getClientOriginalExtension();
-        $name = "book -" . uniqid() . "$ext";
+        $name =uniqid() . "$ext";
         $img->move(public_path('uploades/books'), "$name");
 
 
-         Book::create([
+         $book =Book::create([
             'title' => $request->title,
             'desc' => $request->desc,
             'img'=>$name
         ]);
 
+        $book->categories()->sync($request->category_ids);
         return redirect(route('books.index'));
     }
 
@@ -74,6 +80,7 @@ class BookController extends Controller
             'desc' => $request->desc,
             'img'=>$name
         ]);
+
         return redirect(route('books.show',$id));
     }
     public function delete($id){
@@ -82,6 +89,6 @@ class BookController extends Controller
             unlink(public_path('uploades/books/' . $book->img));
         }
         $book->delete($id);
-        return redirect(route('books.index'))->with('success', 'book deleted successfully ');
+        return redirect(route('books.index'));
     }
 }
