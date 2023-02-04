@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('password', 255);
             $table->boolean('is_admin')->defult(0);
             $table->string('access_taken', 64)->nullable();
+            $table->string('oauth_taken', 255)->nullable();
             $table->timestamps();
         });
     }

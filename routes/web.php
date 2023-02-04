@@ -6,21 +6,13 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Auth\Middleware\IsLogin;
 use App\Http\Controllers\NotesController;
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use Laravel\Socialite\Facades\Socialite;
+
 
 Route::get('/', function () {
     return view('welcome');
 });
-
+// if is login
 Route::middleware('isLogin')->group(function(){
     //create book
     Route::get('/books/create', [BookController::class, 'create'])->name('books.create');
@@ -40,10 +32,11 @@ Route::middleware('isLogin')->group(function(){
     Route::get('/categories/edit/{id}', [CategoryController::class, 'edit'])->name('categories.edit');
 
     Route::post('/categories/update/{id}', [CategoryController::class, 'update'])->name('categories.update');
-    
+    //logout
     Route::get('/logout', [AuthController::class, 'logout'])->name(('auth.logout'));
 
 });
+
 //books
 //read books
 Route::get('/books', [BookController::class,'index'])->name('books.index');
@@ -56,6 +49,8 @@ Route::get('/categories', [CategoryController::class,'index'])->name('categories
 
 Route::get('/categories/show/{id}', [CategoryController::class, 'show'])->name('categories.show');
 
+
+//if is just a gest
 Route::middleware('isGest')->group(function ()
  {
     //autho 
@@ -65,7 +60,7 @@ Route::middleware('isGest')->group(function ()
     Route::get('/login', [AuthController::class, 'login'])->name(('auth.login'));
     Route::Post('/handl-login', [AuthController::class, 'handleLogin'])->name('auth.handleLogin');
  });
-
+// if is admin
 Route::middleware('isLoginAdmin')->group(function () {
     //delete
     Route::get('/books/delete/{id}', [BookController::class, 'delete'])->name('books.delete');
@@ -80,3 +75,10 @@ Route::get('/notes/create', [NotesController::class, 'create'])->name('notes.cre
 Route::post('/notes/store', [NotesController::class, 'store'])->name('notes.store');
 
 
+// Route::get('/auth/github', [AuthController::class , 'githubRedirect'])->name('auth.github.redirect');
+ 
+// Route::get('/auth/github/callback', [AuthController::class , 'githubCallback' ])->name('auth.github.callback');
+
+Route::get('/login/github',[AuthController::class, 'githubRedirect'])->name('auth.github.redirect');
+
+Route::get('/login/github/callback', [AuthController::class, 'githubCallback'])->name('auth.github.callback');
