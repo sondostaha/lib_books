@@ -48,6 +48,7 @@ class BookController extends Controller
     }
 
     public function edit($id){
+        
         $book = Book::findOrFail($id);
         return view('book.edit', compact('book'));
     }
@@ -56,7 +57,8 @@ class BookController extends Controller
         $request->validate([
             'title' => 'required|string|max::100',
             'desc' => 'required|string',
-            'img'=>'image|nullable'
+            'img'=>'image|nullable',
+            
         ]);
         $book = Book::findOrFail($id);
         $name = $book->img;
@@ -80,7 +82,7 @@ class BookController extends Controller
             'desc' => $request->desc,
             'img'=>$name
         ]);
-
+        
         return redirect(route('books.show',$id));
     }
     public function delete($id){

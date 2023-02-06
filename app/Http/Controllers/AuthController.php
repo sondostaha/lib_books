@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\RegisterMail;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Socialite\Facades\Socialite;
 
 
@@ -21,19 +23,28 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string|max:100',
             'email' => 'required|email|max:100',
-            'password' => 'required|min:5|max:50'
+            'password' => 'required|min:5|max:50',
+            'is_admin' => 'required'
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
+            'is_admin' => $request->is_admin
         ]);
 
         //login
 
         Auth::login($user);
+
+        //send mail
+        //Mail::to($user->email)->send(new RegisterMail);
+        
         return redirect( route('books.index') );
+
+        
+
     }
     public function login()
     {
@@ -44,7 +55,8 @@ class AuthController extends Controller
         $request->validate
         ([
             'email' => 'required|email|max:100',
-            'password' => 'required|max:50'
+            'password' => 'required|max:50',
+            
         ]);
 
         $is_login =Auth::attempt(['email' => $request->email, 'password' => $request->password]);

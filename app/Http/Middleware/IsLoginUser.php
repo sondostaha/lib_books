@@ -17,7 +17,7 @@ class IsLoginUser
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::check() && Auth::user()->is_admin ==0){
+        if(Auth::check() && Auth::user()->is_admin =='User'){
             
             return $next($request);
             }

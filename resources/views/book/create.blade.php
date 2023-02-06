@@ -30,6 +30,7 @@ Add new Book
         {{$category->name}}
       </label>
     </div>
+
     @endforeach
     <br>
     <button type="submit" class="btn btn-primary">Submit</button>

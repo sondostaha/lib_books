@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name', 100);
             $table->string('email', 100);
             $table->string('password', 255);
-            $table->boolean('is_admin')->defult(0);
+            $table->enum('is_admin',['Admin','User'])->defult('User');
             $table->string('access_taken', 64)->nullable();
             $table->string('oauth_taken', 255)->nullable();
             $table->timestamps();

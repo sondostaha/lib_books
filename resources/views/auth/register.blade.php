@@ -23,8 +23,14 @@ Register
         <div class="form-group">
         
           <input type="password" class="form-control"  name="password" placeholder="password" value="{{old('password')}}">
-        </div>
 
+        </div>
+        <div class="mb-3">
+          <select id="disabledSelect" name="is_admin" class="form-select">
+            <option>Admin</option>
+            <option>User</option>
+          </select>
+        </div>
       <button type="submit" class="btn btn-primary">Register</button>
       <a href="{{route('auth.github.redirect')}}" type="submit" class="btn btn-success">Sign with github</a>
   </form>

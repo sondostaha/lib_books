@@ -6,6 +6,7 @@ All Books
 
 @section('contant')
 
+
 @auth
 <h3>Notes:</h3>
     @foreach (Auth::user()->notes as $note )

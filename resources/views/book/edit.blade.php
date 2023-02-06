@@ -25,6 +25,8 @@ Edit Book -{{$book->title}}
       <input class="form-control" type="file" name="img" value="{{$book->img}}">
 
     </div>
+    
     <button type="submit" class="btn btn-primary">Edit</button>
   </form>
+  
 @endsection
